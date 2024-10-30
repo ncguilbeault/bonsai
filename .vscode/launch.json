@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Bonsai",
+            "type": "mono",
+            "request": "launch",
+            "program": "${workspaceFolder}/artifacts/bin/Bonsai/debug/Bonsai.exe",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--lib",
+                "${workspaceFolder}/artifacts/bin/Bonsai/debug/",
+                "--lib",
+                "/home/nicholas/machinelearning/artifacts/bin/Bonsai.ML.Torch/debug_net472/",
+            //    "--lib",
+            //    "/home/nicholas/machinelearning/artifacts/build",
+            ],
+            "preLaunchTask": "build",
+            "env": {
+                "GTK_DATA_PREFIX": "None"
+            },
+       }
+    ]
+}

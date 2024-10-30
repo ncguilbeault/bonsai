@@ -151,6 +151,10 @@ namespace Bonsai
                         ConfigurationHelper.RegisterPath(packageConfiguration, customExtensionsPath);
                     }
 
+                    
+                    //packageConfiguration.AssemblyReferences.Add("Bonsai.ML.Torch");
+                    //packageConfiguration.AssemblyLocations.Add("Bonsai.ML.Torch", ProcessorArchitecture.MSIL, "/home/nicholas/machinelearning/artifacts/bin/Bonsai.ML.Torch/debug_net472/Bonsai.ML.Torch.dll");
+
                     ConfigurationHelper.RegisterPath(packageConfiguration, editorExtensionsPath);
                     libFolders.ForEach(path => ConfigurationHelper.RegisterPath(packageConfiguration, path));
                     using var scriptExtensions = ScriptExtensionsProvider.CompileAssembly(Launcher.ProjectFramework, packageConfiguration, editorRepositoryPath, debugScripts);

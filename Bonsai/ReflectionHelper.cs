@@ -7,8 +7,13 @@ namespace Bonsai
 {
     static class ReflectionHelper
     {
+static object l = new object();
+static HashSet<Type> scanned = new();
+
         public static CustomAttributeData[] GetCustomAttributesData(this Type type, bool inherit)
         {
+            lock (l)
+            {
             if (type == null)
             {
                 throw new ArgumentNullException(nameof(type));
@@ -17,8 +22,18 @@ namespace Bonsai
             var attributeLists = new List<IList<CustomAttributeData>>();
             while (type != null)
             {
+                //if (scanned.Add(type))
+                //    Console.WriteLine($"Checking {type.FullName}");
                 attributeLists.Add(type.GetCustomAttributesData());
+                try
+                {
                 type = inherit ? type.BaseType : null;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"Ex while getting base of {type.FullName}: {ex}");
+                    throw;
+                }
             }
 
             var offset = 0;
@@ -31,6 +46,7 @@ namespace Bonsai
             }
 
             return result;
+            }
         }
 
         public static IEnumerable<CustomAttributeData> OfType<TAttribute>(this IEnumerable<CustomAttributeData> customAttributes)

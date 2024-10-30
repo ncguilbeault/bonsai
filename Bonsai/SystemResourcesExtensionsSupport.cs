@@ -20,9 +20,16 @@ namespace Bonsai
             // Assembly.Load(byte[]) always results in a new assembly so we need to manually de-duplicate them
             ConcurrentDictionary<string, Assembly> resolveCache = new();
 
+            AppDomain.CurrentDomain.AssemblyLoad += (_, args) =>
+            {
+                Console.WriteLine($"uk keyboards: {args.LoadedAssembly.FullName}");
+            };
+
             AppDomain.CurrentDomain.AssemblyResolve += (_, args) =>
             {
                 var assemblyName = new AssemblyName(args.Name);
+
+                Console.WriteLine($"Resolving '{assemblyName}'");
 
                 if (resolveCache.TryGetValue(assemblyName.Name, out var cachedResult))
                     return cachedResult;
